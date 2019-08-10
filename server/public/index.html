@@ -4,16 +4,51 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" href="./vendors/bootstrap.css" />
 		<title>David's To-Do List</title>
 		<script src="./vendors/jquery.js"></script>
 		<script src="./scripts/client.js"></script>
 	</head>
 	<body>
 		<header>
-			<h3>Task List Project</h3>
+			<div class="jumbotron">
+				<h3>Task List Project</h3>
+			</div>
 		</header>
 		<main>
-			<ul id="taskList"></ul>
+			<div class="container mx-auto p-4 m-4">
+				<table
+					id="taskTable"
+					class="table table-hover table-active table-striped"
+				>
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Name</th>
+							<th scope="col">More Details</th>
+							<th scope="col">Completed?</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">1</th>
+							<td>TaskName</td>
+							<td>Details popover</td>
+							<td>
+								<button class="btn btn-primary rounded-pill">Done?</button>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">2</th>
+							<td>NextTask</td>
+							<td>Details popover</td>
+							<td>
+								<button class="btn btn-primary rounded-pill">Done?</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</main>
 		<footer></footer>
 	</body>

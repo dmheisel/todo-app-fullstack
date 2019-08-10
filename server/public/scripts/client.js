@@ -6,7 +6,7 @@ function readyHandler() {
 	getTasks();
 }
 
-function getTasks() {
+const getTasks = () => {
 	console.log('running getTasks function');
 
 	$.ajax({
@@ -23,10 +23,6 @@ function getTasks() {
 		});
 }
 
-function renderTasks(taskList) {
-	for (let task of taskList) {
-		let taskRow = $(`<li>${task.name}<br>${task.details}</li>`);
-		taskRow.data('task', task);
-		$('#taskList').append(taskRow);
-	}
+function renderTasks(list) {
+	
 }
