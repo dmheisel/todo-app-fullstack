@@ -45,10 +45,7 @@
 								class="form-control col-8"
 							/>
 							<div class="input-group-append">
-								<button
-									id="addButton"
-									class="btn btn-primary"
-								>
+								<button id="addButton" class="btn btn-primary">
 									Add Task
 								</button>
 								<button
@@ -66,14 +63,17 @@
 			</div>
 
 			<div class="container mx-auto p-4 m-4">
-				<table class="table table-hover table-active table-striped">
-					<thead class="thead-dark">
+				<table
+					class="table table-hover table-borderless table-active table-light shadow"
+				>
+					<thead>
 						<tr>
-							<th scope="col"></th>
-							<th scope="col">Name</th>
-							<th scope="col">More Details</th>
-							<th scope="col">Deadline</th>
-							<th scope="col">Completed?</th>
+							<th scope="col-1"></th>
+							<th scope="col-4">Name</th>
+							<th scope="col-3">Deadline</th>
+							<th scope="col-1">Details</th>
+							<th scope="col-2">Status</th>
+							<th scope="col-1"></th>
 						</tr>
 					</thead>
 					<tbody id="taskTable">

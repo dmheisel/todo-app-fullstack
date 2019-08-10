@@ -4,6 +4,8 @@ $(document).ready(readyHandler);
 
 function readyHandler() {
 	$('#addButton').on('click', onAddClick);
+	$('#taskTable').on('click', '.deleteButton', onDeleteClick);
+	$('#taskTable').popover({ selector: '.detailsButton' });
 	getTasks();
 }
 
@@ -18,14 +20,31 @@ function onAddClick() {
 			name: $('#taskName').val(),
 			details: $('#taskDetails').val()
 		};
-		postTask(taskObj);
+		addTask(taskObj);
 	} else {
 		alert('Task must have name field completed before submitting.');
 		return;
 	}
 }
 
-function postTask(task) {
+function onDeleteClick() {
+	let idToDelete = $(this)
+		.closest('tr')
+		.data('id');
+	$.ajax({
+		method: 'DELETE',
+		url: `/tasks/${idToDelete}`
+	})
+		.then(response => {
+			console.log('successful DELETE request to server');
+			getTasks();
+		})
+		.catch(err => {
+			console.log('error on DELETE request to server: ', err);
+		});
+}
+
+function addTask(task) {
 	$.ajax({
 		method: 'POST',
 		url: '/tasks',
@@ -63,14 +82,29 @@ function renderTasks(list) {
 	$('#taskTable').empty();
 	for (let task of list) {
 		let deadline = new Date(task.deadline).toDateString();
+
 		let htmlText = $(`<tr></tr>`);
+		
 		htmlText
 			.append(`<th scope="row"></th>`)
 			.append(`<td>${task.name}</td`)
-			.append(`<td>${task.details}</td>`)
 			.append(`<td>${deadline}</td>`)
 			.append(
-				`<td><button class="btn btn-primary rounded-pill">Done?</button></td>`
+				`<td>
+				<button
+					class="btn btn-outline-info detailsButton"
+					data-toggle="popover"
+					title="Task Details"
+					data-content="${task.details}"
+					>...
+				</button>
+				</td>`
+			)
+			.append(
+				`<td><button class="btn btn-secondary btn-sm">To-Do</button></td>`
+			)
+			.append(
+				`<td><button class="deleteButton close btn">&times;</button></td>`
 			);
 		htmlText.data('id', task.id);
 		htmlText.data('task', task);

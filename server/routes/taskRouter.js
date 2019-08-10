@@ -45,3 +45,22 @@ router.post('/', (req, res) => {
 			res.sendStatus(500);
 		});
 });
+
+//delete tasks from database
+router.delete('/:id', (req, res) => {
+	let taskId = req.params.id;
+	let queryText = `
+		DELETE FROM "tasks"
+		WHERE "id" = $1;
+		`;
+	pool
+		.query(queryText, [taskId])
+		.then(result => {
+			console.log('successful DELETE request to database');
+			res.sendStatus(204);
+		})
+		.catch(err => {
+			console.log('error on DELETE request to database: ', err);
+			res.sendStatus(500);
+		});
+});
