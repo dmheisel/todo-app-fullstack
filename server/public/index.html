@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="./vendors/bootstrap.css" />
 		<title>David's To-Do List</title>
 		<script src="./vendors/jquery.js"></script>
+		<script src="./vendors/bootstrap.bundle.js"></script>
 		<script src="./scripts/client.js"></script>
 	</head>
 	<body>
@@ -16,36 +17,64 @@
 			</div>
 		</header>
 		<main>
-			<div class="container mx-auto p-4 m-4">
-				<table
-					id="taskTable"
-					class="table table-hover table-active table-striped"
+			<div class="container">
+				<button
+					class="btn btn-outline-primary btn-block"
+					type="button"
+					data-toggle="collapse"
+					data-target="#inputFields"
+					aria-expanded="false"
+					aria-controls="inputFields"
 				>
+					New Task
+				</button>
+				<div id="inputFields" class="collapse">
+					<div class="card card-body">
+						<!-- Input fields go here - task name, extra details, deadline? -->
+						<div class="input-group">
+							<input
+								id="taskName"
+								type="text"
+								placeholder="Task Name"
+								class="form-control col-4"
+							/>
+							<input
+								id="taskDetails"
+								type="text"
+								placeholder="Additional Details"
+								class="form-control col-8"
+							/>
+							<div class="input-group-append">
+								<button id="addButton" class="btn btn-primary">Add Task</button>
+								<button id="cancelButton" class="btn btn-info">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container mx-auto p-4 m-4">
+				<table class="table table-hover table-active table-striped">
 					<thead class="thead-dark">
 						<tr>
-							<th scope="col">#</th>
+							<th scope="col"></th>
 							<th scope="col">Name</th>
 							<th scope="col">More Details</th>
+							<th scope="col">Deadline</th>
 							<th scope="col">Completed?</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">1</th>
+					<tbody id="taskTable">
+						<!-- jQuery to add table data for each task here -->
+						<!-- <tr>
+							<th scope="row"></th>
 							<td>TaskName</td>
 							<td>Details popover</td>
+							<td>Deadline Date</td>
 							<td>
 								<button class="btn btn-primary rounded-pill">Done?</button>
 							</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>NextTask</td>
-							<td>Details popover</td>
-							<td>
-								<button class="btn btn-primary rounded-pill">Done?</button>
-							</td>
-						</tr>
+						</tr> -->
 					</tbody>
 				</table>
 			</div>
