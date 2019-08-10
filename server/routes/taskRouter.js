@@ -15,7 +15,7 @@ module.exports = router;
 
 //get all tasks from database
 router.get('/', (req, res) => {
-	let queryText = `SELECT * FROM "tasks";`;
+	let queryText = `SELECT * FROM "tasks" ORDER BY "isDone", "deadline";`;
 	pool
 		.query(queryText)
 		.then(result => {
@@ -61,6 +61,27 @@ router.delete('/:id', (req, res) => {
 		})
 		.catch(err => {
 			console.log('error on DELETE request to database: ', err);
+			res.sendStatus(500);
+		});
+});
+
+router.put('/:id', (req, res) => {
+	let idToUpdate = req.params.id;
+	let newStatus = req.body.isDone;
+
+	let queryText = `
+			UPDATE "tasks"
+				SET "isDone" = $1
+				WHERE "id" = $2;`;
+
+	pool
+		.query(queryText, [newStatus, idToUpdate])
+		.then(result => {
+			console.log('successful PUT route to database');
+			res.sendStatus(201);
+		})
+		.catch(err => {
+			console.log(`error on PUT route to database: ${err}`);
 			res.sendStatus(500);
 		});
 });

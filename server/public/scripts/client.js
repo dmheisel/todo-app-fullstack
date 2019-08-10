@@ -3,8 +3,9 @@ console.log('js sourced');
 $(document).ready(readyHandler);
 
 function readyHandler() {
-	$('#addButton').on('click', onAddClick);
-	$('#taskTable').on('click', '.deleteButton', onDeleteClick);
+	$('#addButton').on('click', handleAddClick);
+	$('#taskTable').on('click', '.deleteButton', handleDeleteClick);
+	$('#taskTable').on('click', '.statusButton', sendStatusUpdate);
 	$('#taskTable').popover({ selector: '.detailsButton' });
 	getTasks();
 }
@@ -14,7 +15,7 @@ function clearInputs() {
 	$('#taskDetails').val('');
 }
 
-function onAddClick() {
+function handleAddClick() {
 	if ($('#taskName').val() !== '') {
 		let taskObj = {
 			name: $('#taskName').val(),
@@ -27,7 +28,7 @@ function onAddClick() {
 	}
 }
 
-function onDeleteClick() {
+function handleDeleteClick() {
 	let idToDelete = $(this)
 		.closest('tr')
 		.data('id');
@@ -41,6 +42,29 @@ function onDeleteClick() {
 		})
 		.catch(err => {
 			console.log('error on DELETE request to server: ', err);
+		});
+}
+
+function sendStatusUpdate() {
+	//updates task's "TO DO" status to "COMPLETE" and adds class to change color, etc.
+	let idToUpdate = $(this)
+		.closest('tr')
+		.data('id');
+	let newStatus = !$(this)
+		.closest('tr')
+		.data('task').isDone;
+	let taskToMarkDone = { isDone: newStatus };
+	$.ajax({
+		method: 'PUT',
+		url: `/tasks/${idToUpdate}`,
+		data: taskToMarkDone
+	})
+		.then(response => {
+			console.log(`successful PUT request to server`);
+			getTasks();
+		})
+		.catch(err => {
+			console.log(`error received on PUT request to server: ${err}`);
 		});
 }
 
@@ -81,10 +105,10 @@ const getTasks = () => {
 function renderTasks(list) {
 	$('#taskTable').empty();
 	for (let task of list) {
-		let deadline = new Date(task.deadline).toDateString();
+		let deadline = new Date(task.deadline).toString();
 
 		let htmlText = $(`<tr></tr>`);
-		
+
 		htmlText
 			.append(`<th scope="row"></th>`)
 			.append(`<td>${task.name}</td`)
@@ -99,13 +123,22 @@ function renderTasks(list) {
 					>...
 				</button>
 				</td>`
-			)
-			.append(
-				`<td><button class="btn btn-secondary btn-sm">To-Do</button></td>`
-			)
-			.append(
-				`<td><button class="deleteButton close btn">&times;</button></td>`
 			);
+		if (task.isDone) {
+			htmlText
+				.append(
+					`<td><button class="statusButton btn btn-success btn-sm">Done!</td>`
+				)
+				.addClass('bg-success text-white');
+		} else {
+			htmlText.append(
+				`<td><button class="statusButton btn btn-secondary btn-sm">To-Do</button></td>`
+			);
+		}
+
+		htmlText.append(
+			`<td><button class="deleteButton close btn">&times;</button></td>`
+		);
 		htmlText.data('id', task.id);
 		htmlText.data('task', task);
 		$('#taskTable').append(htmlText);
