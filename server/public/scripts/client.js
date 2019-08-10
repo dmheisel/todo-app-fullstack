@@ -119,8 +119,8 @@ function renderTasks(list) {
 					class="btn btn-outline-info detailsButton"
 					data-toggle="popover"
 					title="Task Details"
-					data-content="${task.details}"
-					>...
+					data-content="${task.details}">
+						...
 				</button>
 				</td>`
 			);
@@ -132,12 +132,24 @@ function renderTasks(list) {
 				.addClass('bg-success text-white');
 		} else {
 			htmlText.append(
-				`<td><button class="statusButton btn btn-secondary btn-sm">To-Do</button></td>`
+				`<td>
+					<button
+						class="statusButton btn btn-secondary btn-sm">
+							To-Do
+					</button>
+				</td>`
 			);
 		}
 
 		htmlText.append(
-			`<td><button class="deleteButton close btn">&times;</button></td>`
+			`<td>
+				<button
+					class="deleteButton close btn"
+					data-toggle="modal"
+					data-target="#confirmDeleteModal">
+						&times;
+				</button>
+			</td>`
 		);
 		htmlText.data('id', task.id);
 		htmlText.data('task', task);
