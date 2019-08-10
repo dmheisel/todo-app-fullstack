@@ -105,7 +105,7 @@ const getTasks = () => {
 function renderTasks(list) {
 	$('#taskTable').empty();
 	for (let task of list) {
-		let deadline = new Date(task.deadline).toString();
+		let deadline = new Date(task.deadline).toDateString();
 
 		let htmlText = $(`<tr></tr>`);
 
