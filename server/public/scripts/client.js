@@ -4,7 +4,8 @@ $(document).ready(readyHandler);
 
 function readyHandler() {
 	$('#addButton').on('click', handleAddClick);
-	$('#taskTable').on('click', '.deleteButton', handleDeleteClick);
+	$('#confirmDeleteButton').on('click', confirmDelete);
+	$('#taskTable').on('click', '.deleteButton', askForConfirmation);
 	$('#taskTable').on('click', '.statusButton', sendStatusUpdate);
 	$('#taskTable').popover({ selector: '.detailsButton' });
 	getTasks();
@@ -28,16 +29,24 @@ function handleAddClick() {
 	}
 }
 
-function handleDeleteClick() {
+function askForConfirmation() {
+	$('#confirmDeleteModal').modal('toggle');
+
 	let idToDelete = $(this)
 		.closest('tr')
 		.data('id');
+	$('#confirmDeleteModal').data('id', idToDelete);
+}
+
+function confirmDelete() {
+	let idToDelete = $('#confirmDeleteModal').data('id');
 	$.ajax({
 		method: 'DELETE',
 		url: `/tasks/${idToDelete}`
 	})
 		.then(response => {
 			console.log('successful DELETE request to server');
+			$('#confirmDeleteModal').modal('toggle');
 			getTasks();
 		})
 		.catch(err => {
