@@ -1,6 +1,5 @@
 console.log('js sourced');
 
-
 $(document).ready(readyHandler);
 
 function readyHandler() {
@@ -9,6 +8,19 @@ function readyHandler() {
 	$('#taskTable').on('click', '.deleteButton', askForConfirmation);
 	$('#taskTable').on('click', '.statusButton', sendStatusUpdate);
 	$('#taskTable').popover({ selector: '.detailsButton' });
+	$('#taskTable').on('mouseenter', '.statusDone', function() {
+		$(this).text('Undo?');
+	});
+	$('#taskTable').on('mouseleave', '.statusDone', function() {
+		$(this).text('Done!');
+	});
+	$('#taskTable').on('mouseenter', '.statusToDo', function() {
+		$(this).text('Done?');
+	});
+	$('#taskTable').on('mouseleave', '.statusToDo', function() {
+		$(this).text('To-Do');
+	});
+
 	getTasks();
 }
 
@@ -120,7 +132,7 @@ const getTasks = () => {
 function renderTasks(list) {
 	$('#taskTable').empty();
 	for (let task of list) {
-		let deadline = new Date(task.deadline).toDateString();
+		let deadline = new Date(task.deadline).toDateString().slice(0, -4);
 
 		let htmlText = $(`<tr></tr>`);
 
@@ -131,7 +143,7 @@ function renderTasks(list) {
 			.append(
 				`<td>
 				<button
-					class="btn btn-outline-info detailsButton"
+					class="btn btn-outline-dark detailsButton"
 					data-toggle="popover"
 					title="Task Details"
 					data-content="${task.details}">
@@ -142,14 +154,14 @@ function renderTasks(list) {
 		if (task.isDone) {
 			htmlText
 				.append(
-					`<td><button class="statusButton btn btn-success btn-sm">Done!</td>`
+					`<td><button class="statusButton statusDone btn btn-success btn-sm">Done!</td>`
 				)
 				.addClass('bg-success text-white');
 		} else {
 			htmlText.append(
 				`<td>
 					<button
-						class="statusButton btn btn-secondary btn-sm">
+						class="statusButton statusToDo btn btn-secondary btn-sm">
 							To-Do
 					</button>
 				</td>`

@@ -5,6 +5,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<link rel="stylesheet" href="./vendors/bootstrap.css" />
+		<link rel="stylesheet" href="./styles/style.css" />
+		<link
+			href="https://fonts.googleapis.com/css?family=Open+Sans|PT+Sans&display=swap"
+			rel="stylesheet"
+		/>
 		<title>David's To-Do List</title>
 		<script src="./vendors/jquery.js"></script>
 		<script src="./vendors/bootstrap.bundle.js"></script>
@@ -13,15 +18,16 @@
 	<body>
 		<header>
 			<div class="jumbotron">
-				<h3 class="display-2 text-white text-center font-weight-bolder">
-					Task List Project
+				<h3 class="display-4 text-white text-center font-weight-bolder">
+					Who do? To-Do!
 				</h3>
 			</div>
 		</header>
 		<main>
 			<div class="container">
 				<button
-					class="btn btn-outline-primary btn-block"
+					id="newTaskButton"
+					class="btn btn-primary btn-block shadow"
 					type="button"
 					data-toggle="collapse"
 					data-target="#inputFields"
@@ -30,7 +36,7 @@
 				>
 					New Task
 				</button>
-				<div id="inputFields" class="collapse">
+				<div id="inputFields" class="collapse shadow">
 					<div class="card card-body">
 						<!-- Input fields go here - task name, extra details, deadline? -->
 						<div class="input-group">
@@ -82,13 +88,13 @@
 
 			<div class="container mx-auto p-4 m-4">
 				<table
-					class="table table-hover table-borderless table-active table-light shadow"
+					class="table table-hover table-borderless table-active table-sm table-light shadow"
 				>
-					<thead>
+					<thead class="thead-dark">
 						<tr>
 							<th scope="col-1"></th>
-							<th scope="col-4">Name</th>
-							<th scope="col-3">Deadline</th>
+							<th scope="col-5">Name</th>
+							<th scope="col-2">Deadline</th>
 							<th scope="col-1">Notes</th>
 							<th scope="col-2">Status</th>
 							<th scope="col-1"></th>
@@ -96,15 +102,6 @@
 					</thead>
 					<tbody id="taskTable">
 						<!-- jQuery to add table data for each task here -->
-						<!-- <tr>
-							<th scope="row"></th>
-							<td>TaskName</td>
-							<td>Details popover</td>
-							<td>Deadline Date</td>
-							<td>
-								<button class="btn btn-primary rounded-pill">Done?</button>
-							</td>
-						</tr> -->
 					</tbody>
 				</table>
 			</div>
