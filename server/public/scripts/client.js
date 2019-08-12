@@ -14,13 +14,11 @@ function readyHandler() {
 	$('#taskTable').on('mouseenter', '.statusToDo', toggleMouseEnter);
 	$('#taskTable').on('mouseleave', '.statusToDo', toggleMouseLeave);
 
-	// $('.tableHeader').on('click', sortTable);
-
 	getTasks();
 }
 
-	//functions to dynamically add mouseenter and mouseleave to status button
-	//generally better to use this than try to dynamically add hover?
+//functions to dynamically add mouseenter and mouseleave to status button
+//generally better to use this than try to dynamically add hover?
 function toggleMouseEnter() {
 	if ($(this).text() === 'Done!') {
 		$(this).text('Undo?');
@@ -36,11 +34,13 @@ function toggleMouseLeave() {
 	}
 }
 
+//function to clear inputs
 function clearInputs() {
 	$('#taskName').val('');
 	$('#taskDetails').val('');
 }
 
+//function to gather field inputs and create object to send to database
 function handleAddClick() {
 	if ($('#taskName').val() !== '') {
 		if ($('#deadlineSelect').val() === null) {
@@ -59,6 +59,7 @@ function handleAddClick() {
 	}
 }
 
+//toggles modal to ask for confirmation of task deletion
 function askForConfirmation() {
 	$('#confirmDeleteModal').modal('toggle');
 
@@ -66,8 +67,10 @@ function askForConfirmation() {
 		.closest('tr')
 		.data('id');
 	$('#confirmDeleteModal').data('id', idToDelete);
+	//attaches id to delete to the modal window for processing delete route
 }
 
+//modal confirm button confirms delete
 function confirmDelete() {
 	let idToDelete = $('#confirmDeleteModal').data('id');
 	$.ajax({
@@ -77,6 +80,8 @@ function confirmDelete() {
 		.then(response => {
 			console.log('successful DELETE request to server');
 			$('#confirmDeleteModal').modal('toggle');
+			$('#confirmDeleteModal').data('id', '');
+			//removes id from modal after deletion is confirmed
 			getTasks();
 		})
 		.catch(err => {
@@ -107,6 +112,7 @@ function sendStatusUpdate() {
 		});
 }
 
+//POST route to server to add task to database
 function addTask(task) {
 	$.ajax({
 		method: 'POST',
@@ -124,6 +130,7 @@ function addTask(task) {
 		});
 }
 
+//GET route to server to gather task list from database
 const getTasks = () => {
 	console.log('running getTasks function');
 
@@ -133,25 +140,26 @@ const getTasks = () => {
 	})
 		.then(response => {
 			console.log('successful GET route to server');
-			let taskList = response;
-			renderTasks(taskList);
+			renderTasks(response);
 		})
 		.catch(err => {
 			console.log('error on GET route from server: ', err);
 		});
 };
 
+//renders tasks to the DOM
 function renderTasks(list) {
 	$('#taskTable').empty();
 	for (let task of list) {
 		let deadline = new Date(task.deadline).toDateString().slice(0, -4);
-
+		//sets deadline to look like "Sun Aug 18" (strips off year as not needed rn)
 		let htmlText = $(`<tr></tr>`);
+		//creates jquery object for list object
 
 		htmlText
 			.append(`<th scope="row"></th>`)
-			.append(`<td>${task.name}</td`)
-			.append(`<td>${deadline}</td>`)
+			.append(`<td>${task.name}</td`) // appends name
+			.append(`<td>${deadline}</td>`) // appends deadline
 			.append(
 				`<td>
 				<button
@@ -162,7 +170,10 @@ function renderTasks(list) {
 						...
 				</button>
 				</td>`
-			);
+			); // appends button to click for popover with tasks details
+
+		//appends status button - if status is complete, appends "Done!"
+		//											- if status is incomplete, appends "To-Do"
 		if (task.isDone) {
 			htmlText
 				.append(
@@ -188,9 +199,10 @@ function renderTasks(list) {
 						&times;
 				</button>
 			</td>`
-		);
-		htmlText.data('id', task.id);
-		htmlText.data('task', task);
-		$('#taskTable').append(htmlText);
+		); // appends delete "X" to toggle confirmation modal to delete item
+
+		htmlText.data('id', task.id); // adds task id to html row
+		htmlText.data('task', task); // adds task object to html row
+		$('#taskTable').append(htmlText); // adds jquery item to table
 	}
 }
