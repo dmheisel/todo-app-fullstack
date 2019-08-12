@@ -1,5 +1,6 @@
 console.log('js sourced');
 
+
 $(document).ready(readyHandler);
 
 function readyHandler() {
@@ -18,10 +19,15 @@ function clearInputs() {
 
 function handleAddClick() {
 	if ($('#taskName').val() !== '') {
+		if ($('#deadlineSelect').val() === null) {
+			$('#deadlineSelect').val('7');
+		}
 		let taskObj = {
 			name: $('#taskName').val(),
-			details: $('#taskDetails').val()
+			details: $('#taskDetails').val(),
+			deadline: $('#deadlineSelect').val()
 		};
+		console.log(taskObj);
 		addTask(taskObj);
 	} else {
 		alert('Task must have name field completed before submitting.');
