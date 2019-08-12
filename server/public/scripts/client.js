@@ -8,6 +8,19 @@ function readyHandler() {
 	$('#taskTable').on('click', '.deleteButton', askForConfirmation);
 	$('#taskTable').on('click', '.statusButton', sendStatusUpdate);
 	$('#taskTable').popover({ selector: '.detailsButton' });
+	$('#taskTable').on('mouseenter', '.statusDone', function() {
+		$(this).text('Undo?');
+	});
+	$('#taskTable').on('mouseleave', '.statusDone', function() {
+		$(this).text('Done!');
+	});
+	$('#taskTable').on('mouseenter', '.statusToDo', function() {
+		$(this).text('Done?');
+	});
+	$('#taskTable').on('mouseleave', '.statusToDo', function() {
+		$(this).text('To-Do');
+	});
+
 	getTasks();
 }
 
@@ -141,14 +154,14 @@ function renderTasks(list) {
 		if (task.isDone) {
 			htmlText
 				.append(
-					`<td><button class="statusButton btn btn-success btn-sm">Done!</td>`
+					`<td><button class="statusButton statusDone btn btn-success btn-sm">Done!</td>`
 				)
 				.addClass('bg-success text-white');
 		} else {
 			htmlText.append(
 				`<td>
 					<button
-						class="statusButton btn btn-secondary btn-sm">
+						class="statusButton statusToDo btn btn-secondary btn-sm">
 							To-Do
 					</button>
 				</td>`
