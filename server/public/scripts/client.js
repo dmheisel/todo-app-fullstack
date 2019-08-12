@@ -8,20 +8,32 @@ function readyHandler() {
 	$('#taskTable').on('click', '.deleteButton', askForConfirmation);
 	$('#taskTable').on('click', '.statusButton', sendStatusUpdate);
 	$('#taskTable').popover({ selector: '.detailsButton' });
-	$('#taskTable').on('mouseenter', '.statusDone', function() {
-		$(this).text('Undo?');
-	});
-	$('#taskTable').on('mouseleave', '.statusDone', function() {
-		$(this).text('Done!');
-	});
-	$('#taskTable').on('mouseenter', '.statusToDo', function() {
-		$(this).text('Done?');
-	});
-	$('#taskTable').on('mouseleave', '.statusToDo', function() {
-		$(this).text('To-Do');
-	});
+
+	$('#taskTable').on('mouseenter', '.statusDone', toggleMouseEnter);
+	$('#taskTable').on('mouseleave', '.statusDone', toggleMouseLeave);
+	$('#taskTable').on('mouseenter', '.statusToDo', toggleMouseEnter);
+	$('#taskTable').on('mouseleave', '.statusToDo', toggleMouseLeave);
+
+	// $('.tableHeader').on('click', sortTable);
 
 	getTasks();
+}
+
+	//functions to dynamically add mouseenter and mouseleave to status button
+	//generally better to use this than try to dynamically add hover?
+function toggleMouseEnter() {
+	if ($(this).text() === 'Done!') {
+		$(this).text('Undo?');
+	} else if ($(this).text() === 'To-Do') {
+		$(this).text('Done?');
+	}
+}
+function toggleMouseLeave() {
+	if ($(this).text() === 'Undo?') {
+		$(this).text('Done!');
+	} else if ($(this).text() === 'Done?') {
+		$(this).text('To-Do');
+	}
 }
 
 function clearInputs() {
@@ -161,9 +173,8 @@ function renderTasks(list) {
 			htmlText.append(
 				`<td>
 					<button
-						class="statusButton statusToDo btn btn-secondary btn-sm">
-							To-Do
-					</button>
+						class="statusButton statusToDo btn
+						 btn-secondary btn-sm">To-Do</button>
 				</td>`
 			);
 		}
