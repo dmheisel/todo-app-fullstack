@@ -1,0 +1,24 @@
+body {
+	background-color: #f9f7f7;
+}
+
+thead {
+	background-color: #112d4e;
+}
+
+.jumbotron {
+	max-height: 150px;
+	background-color: #3f72af;
+}
+
+.container {
+	max-width: 65%;
+}
+
+#newTaskButton {
+	background-color: #3f72af;
+}
+
+#taskTable {
+	background-color: #dbe2ef;
+}

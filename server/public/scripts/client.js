@@ -1,6 +1,5 @@
 console.log('js sourced');
 
-
 $(document).ready(readyHandler);
 
 function readyHandler() {
@@ -120,7 +119,7 @@ const getTasks = () => {
 function renderTasks(list) {
 	$('#taskTable').empty();
 	for (let task of list) {
-		let deadline = new Date(task.deadline).toDateString();
+		let deadline = new Date(task.deadline).toDateString().slice(0, -4);
 
 		let htmlText = $(`<tr></tr>`);
 
@@ -131,7 +130,7 @@ function renderTasks(list) {
 			.append(
 				`<td>
 				<button
-					class="btn btn-outline-info detailsButton"
+					class="btn btn-outline-dark detailsButton"
 					data-toggle="popover"
 					title="Task Details"
 					data-content="${task.details}">
