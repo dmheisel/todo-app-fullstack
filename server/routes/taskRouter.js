@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const pg = require('pg');
+const moment = require('moment');
 
 const Pool = pg.Pool;
 const pool = new Pool({
@@ -31,9 +32,15 @@ router.get('/', (req, res) => {
 //post new task to database
 router.post('/', (req, res) => {
 	let newTask = req.body;
-	let queryText = `INSERT INTO "tasks" ("name", "details")
-                    VALUES ($1, $2);`;
-	let values = [newTask.name, newTask.details];
+	let date = moment()
+		.add(Number(newTask.deadline), 'days')
+		.format('YYYY-MM-DD HH:mm:ss');
+	let queryText = `
+		INSERT INTO
+			"tasks" ("name", "details", "deadline")
+		VALUES
+			($1, $2, $3);`;
+	let values = [newTask.name, newTask.details, date];
 	pool
 		.query(queryText, values)
 		.then(result => {

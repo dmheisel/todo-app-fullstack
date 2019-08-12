@@ -13,7 +13,9 @@
 	<body>
 		<header>
 			<div class="jumbotron">
-				<h3>Task List Project</h3>
+				<h3 class="display-2 text-white text-center font-weight-bolder">
+					Task List Project
+				</h3>
 			</div>
 		</header>
 		<main>
@@ -36,14 +38,30 @@
 								id="taskName"
 								type="text"
 								placeholder="Task Name"
-								class="form-control col-4"
+								class="form-control col-2"
 							/>
 							<input
 								id="taskDetails"
 								type="text"
-								placeholder="Additional Details"
+								placeholder="Additional Notes"
 								class="form-control col-8"
 							/>
+
+							<div class="input-group-prepend">
+								<span class="input-group-text">Due in:</span>
+							</div>
+							<select class="custom-select col-2" id="deadlineSelect">
+								<option selected disabled hidden>Timespan</option>
+								<option value="1">1 Day</option>
+								<option value="2">2 Days</option>
+								<option value="3">3 Days</option>
+								<option value="4">4 Days</option>
+								<option value="5">5 Days</option>
+								<option value="6">6 Days</option>
+								<option value="7">1 Week</option>
+								<option value="14">2 Weeks</option>
+							</select>
+
 							<div class="input-group-append">
 								<button id="addButton" class="btn btn-primary">
 									Add Task
@@ -71,7 +89,7 @@
 							<th scope="col-1"></th>
 							<th scope="col-4">Name</th>
 							<th scope="col-3">Deadline</th>
-							<th scope="col-1">Details</th>
+							<th scope="col-1">Notes</th>
 							<th scope="col-2">Status</th>
 							<th scope="col-1"></th>
 						</tr>
@@ -124,7 +142,11 @@
 							>
 								Cancel
 							</button>
-							<button id="confirmDeleteButton" type="button" class="btn btn-primary">
+							<button
+								id="confirmDeleteButton"
+								type="button"
+								class="btn btn-primary"
+							>
 								Delete
 							</button>
 						</div>
